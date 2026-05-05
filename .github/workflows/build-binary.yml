@@ -24,15 +24,24 @@ jobs:
           pip install pyinstaller
           pip install -e .
           
+      - name: Create entry point
+        run: |
+          cat > bbot_entry.py << 'EOF'
+          #!/usr/bin/env python3
+          from bbot.cli import main
+          if __name__ == "__main__":
+              main()
+          EOF
+          
       - name: Build binary
         run: |
           pyinstaller --onefile \
             --name bbot \
             --collect-all bbot \
             --hidden-import bbot \
-            --hidden-import ansible_runner \
             --hidden-import bbot.cli \
-            -c -e bbot/cli.py
+            --hidden-import ansible_runner \
+            bbot_entry.py
             
       - name: Test binary
         run: |
