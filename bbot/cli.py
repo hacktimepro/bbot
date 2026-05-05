@@ -307,6 +307,8 @@ async def _main():
 def main():
     import asyncio
     import traceback
+    import multiprocessing
+    multiprocessing.freeze_support()  # Required for PyInstaller
     from bbot.core import CORE
 
     global scan_name
