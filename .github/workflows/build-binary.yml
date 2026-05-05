@@ -31,7 +31,8 @@ jobs:
             --collect-all bbot \
             --hidden-import bbot \
             --hidden-import ansible_runner \
-            bbot/__main__.py
+            --hidden-import bbot.cli \
+            -c -e bbot/cli.py
             
       - name: Test binary
         run: |
