@@ -26,22 +26,21 @@ jobs:
           
       - name: Create entry point
         run: |
-          cat > bbot_entry.py << 'EOF'
-          #!/usr/bin/env python3
-          from bbot.cli import main
-          if __name__ == "__main__":
-              main()
-          EOF
+          echo '#!/usr/bin/env python3' > bbot_entry.py
+          echo 'from bbot.cli import main' >> bbot_entry.py
+          echo 'if __name__ == "__main__":' >> bbot_entry.py
+          echo '    main()' >> bbot_entry.py
+          cat bbot_entry.py
           
       - name: Build binary
         run: |
-          pyinstaller --onefile \
+          python -m PyInstaller --onefile \
             --name bbot \
             --collect-all bbot \
             --hidden-import bbot \
             --hidden-import bbot.cli \
             --hidden-import ansible_runner \
-            bbot_entry.py
+            ./bbot_entry.py
             
       - name: Test binary
         run: |
